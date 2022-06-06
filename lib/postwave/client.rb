@@ -18,8 +18,7 @@ module Postwave
       @blog_root = File.dirname(config_path)
       raise InvalidBlogError unless is_set_up?(@blog_root)
 
-      if preload
-        @all_posts = get_all_posts if preload
+      @all_posts = get_all_posts if preload
     end
 
     # returns: an array of PostStub Structs - [<struct PostStub date=Time, title="", stub="">]
@@ -45,9 +44,10 @@ module Postwave
       posts[offset, count]
     end
 
-    # returns: an array of tags - [<struct Tag tag="", count=1>]
+    # returns: an array of tags - [String]
     def tags
-      
+      summary = get_summary
+      summary.tags
     end
 
     private
@@ -70,6 +70,11 @@ module Postwave
         full_index << PostStub.new(Date.parse(post[1]), post[2], post[0][...-3])
       end
       full_index
+    end
+
+    def get_summary
+      summary_file_path = File.join(@blog_root, POSTS_DIR, META_DIR, SUMMARY_FILE_NAME)
+      YAML.load_file(summary_file_path)
     end
   end
 end
