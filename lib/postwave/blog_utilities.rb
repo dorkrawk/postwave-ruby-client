@@ -32,7 +32,7 @@ module Postwave
       paths_to_check = directory_paths(blog_root) + file_paths(blog_root)
       missing_paths = []
       paths_to_check.each do |path|
-        missing_paths << path if !FileTest.exists?(path)
+        missing_paths << path if !FileTest.exist?(path)
       end
       missing_paths
     end

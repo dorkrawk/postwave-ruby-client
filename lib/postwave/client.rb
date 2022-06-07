@@ -3,13 +3,14 @@ require_relative "errors"
 require_relative "blog_utilities"
 
 require "csv"
-require "date"
+require "time"
+require "yaml"
 
 module Postwave
   class Client
     include BlogUtilities
 
-    PostStub = Struct.new(:date, :title, :stub)
+    PostStub = Struct.new(:date, :title, :slug)
     Tag = Struct.new(:tag, :count)
 
     def initialize(config_path, preload: false)
@@ -40,14 +41,14 @@ module Postwave
     def posts(offset: 0, limit: nil, tag: nil)
       posts = @all_posts || get_all_posts
       posts = posts.select { |post| post.tags.include?(tag) } if tag
-      count = limit || count.size
+      count = limit || posts.size
       posts[offset, count]
     end
 
     # returns: an array of tags - [String]
     def tags
-      summary = get_summary
-      summary.tags
+      summary = @blog_summary || get_summary
+      summary[:tags]
     end
 
     private
@@ -61,13 +62,15 @@ module Postwave
       Dir.glob(File.join(@blog_root, POSTS_DIR, "*.md")) do |post_file_path|
         posts << Postwave::Post.new_from_file_path(post_file_path)
       end
-      posts
+      posts.sort_by { |p| p.date }.reverse
     end
 
     def get_full_index
-      full_index = []                  
-      CSV.foreach(File.join(@blog_root, POSTS_DIR, META_DIR, INDEX_FILE_NAME)) do |post|
-        full_index << PostStub.new(Date.parse(post[1]), post[2], post[0][...-3])
+      full_index = []
+      index_contents = CSV.read(File.join(@blog_root, POSTS_DIR, META_DIR, INDEX_FILE_NAME))
+      index_contents.shift # skip header                 
+      index_contents.each do |post|
+        full_index << PostStub.new(Time.parse(post[1]), post[2], post[0])
       end
       full_index
     end

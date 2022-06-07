@@ -1,7 +1,7 @@
 require_relative "blog_utilities"
 
 module Postwave
-   class Post
+  class Post
     include BlogUtilities
 
     MEATADATA_DELIMTER = "---"
@@ -30,6 +30,9 @@ module Postwave
         end
       end
 
+      # turn "date" into a Time object
+      field_content["date"] = Time.parse(field_content["date"])
+
       # turn "tags" into an array
       if field_content["tags"]
         field_content["tags"] = field_content["tags"].split(",").map do |tag|
@@ -44,8 +47,8 @@ module Postwave
       @file_name = file_name
 
       field_content.each do |field, value|
-        instance_variable_set("@#{field}", value)
-        self.class.send(:attr_reader, field)
+        instance_variable_set("@#{field}", value) unless self.instance_variables.include?("@#{field}".to_sym)
+        self.class.send(:attr_reader, field) unless self.public_methods.include?(field.to_sym)
       end
     end
   end
