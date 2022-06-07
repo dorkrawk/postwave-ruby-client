@@ -43,7 +43,7 @@ describe Postwave::Client do
       first_post = index.first
 
       _(index).must_be_instance_of Array
-      _(first_post).must_be_instance_of Postwave::Client::PostStub
+      _(first_post).must_be_instance_of Postwave::PostStub
       _(index.count).must_equal 3
       _(index).must_equal index.sort_by { |p| p.date }.reverse # index should be reverse chronological
 
@@ -127,6 +127,24 @@ describe Postwave::Client do
       tags = @good_client.tags
 
       _(tags.sort).must_equal ["first-post", "hi", "test"]
+    end
+  end
+
+  describe "#tag" do
+    it "returns a Tag struct" do
+      tag_name = "test"
+      tag = @good_client.tag(tag_name)
+
+      _(tag).must_be_instance_of Postwave::Tag
+      _(tag.name).must_equal tag_name
+      _(tag.count).must_equal 2
+      _(tag.post_slugs).must_equal ["2022-06-06-yet-another-post", "2022-06-06-first-test-post"]
+    end
+
+    it "raises a TagNotFounde if a bad tag path is passed" do
+      assert_raises(Postwave::TagNotFoundError) do
+        @good_client.tag("bad-tag")
+      end
     end
   end
 end

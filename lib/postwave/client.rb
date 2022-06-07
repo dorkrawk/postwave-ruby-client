@@ -10,9 +10,6 @@ module Postwave
   class Client
     include BlogUtilities
 
-    PostStub = Struct.new(:date, :title, :slug)
-    Tag = Struct.new(:tag, :count)
-
     def initialize(config_path, preload: false)
       raise MissingConfigError unless is_valid_config?(config_path)
       
@@ -51,6 +48,16 @@ module Postwave
       summary[:tags]
     end
 
+    # returns: a Tag Struct - <Tag tag: "", count: Integer, post_slugs: ["post-slug",..]
+    def tag(tag)
+      tag_file_path = File.join(@blog_root, POSTS_DIR, META_DIR, TAGS_DIR, "#{tag}.yaml")
+      raise TagNotFoundError unless File.exist?(tag_file_path)
+
+      tag_info = YAML.load_file(tag_file_path)
+
+      Tag.new(tag, tag_info[:count], tag_info[:post_slugs])
+    end
+
     private
 
     def is_valid_config?(config_path)
@@ -70,7 +77,7 @@ module Postwave
       index_contents = CSV.read(File.join(@blog_root, POSTS_DIR, META_DIR, INDEX_FILE_NAME))
       index_contents.shift # skip header                 
       index_contents.each do |post|
-        full_index << PostStub.new(Time.parse(post[1]), post[2], post[0])
+      full_index << PostStub.new(Time.parse(post[1]), post[2], post[0])
       end
       full_index
     end

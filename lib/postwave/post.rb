@@ -45,6 +45,7 @@ module Postwave
     
     def initialize(file_name, field_content = {})
       @file_name = file_name
+      @slug = file_name[...-3] # cut off ".md"
 
       field_content.each do |field, value|
         instance_variable_set("@#{field}", value) unless self.instance_variables.include?("@#{field}".to_sym)

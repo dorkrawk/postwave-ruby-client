@@ -10,4 +10,7 @@ module Postwave
 
   class PostNotFoundError < PostwaveError
   end
+
+  class TagNotFoundError < PostwaveError
+  end
 end

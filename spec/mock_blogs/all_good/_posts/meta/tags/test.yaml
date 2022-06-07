@@ -1,5 +1,5 @@
 ---
 :count: 2
-:post_file_paths:
-- 2022-06-06-yet-another-post.md
-- 2022-06-06-first-test-post.md
+:post_slugs:
+- 2022-06-06-yet-another-post
+- 2022-06-06-first-test-post
