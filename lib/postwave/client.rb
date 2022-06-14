@@ -55,7 +55,7 @@ module Postwave
 
       tag_info = YAML.load_file(tag_file_path)
 
-      Tag.new(tag, tag_info[:count], tag_info[:post_slugs])
+      Postwave::Tag.new(tag, tag_info[:count], tag_info[:post_slugs])
     end
 
     private
@@ -77,7 +77,7 @@ module Postwave
       index_contents = CSV.read(File.join(@blog_root, POSTS_DIR, META_DIR, INDEX_FILE_NAME))
       index_contents.shift # skip header                 
       index_contents.each do |post|
-      full_index << PostStub.new(Time.parse(post[1]), post[2], post[0])
+      full_index << Postwave::PostStub.new(Time.parse(post[1]), post[2], post[0])
       end
       full_index
     end

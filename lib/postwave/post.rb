@@ -6,14 +6,15 @@ module Postwave
 
     MEATADATA_DELIMTER = "---"
 
-    attr_reader :file_name
+    attr_reader :file_name, :slug
 
     def self.new_from_file_path(path)
       metadata_delimter_count = 0
+      body_buffer_count = 0
       field_content = { "body" => "" }
 
       File.readlines(path).each do |line|
-        clean_line = line.strip
+        clean_line = line.chomp
         if clean_line == MEATADATA_DELIMTER
           metadata_delimter_count += 1
           next
@@ -25,8 +26,12 @@ module Postwave
           field, value = clean_line.split(":", 2).map(&:strip)
           field_content[field] = value
         else
-          next if clean_line.empty?
-          field_content["body"] += line
+          if body_buffer_count == 0
+            body_buffer_count += 1
+            next if clean_line.empty?
+          end
+
+          field_content["body"] += "#{line}\n"
         end
       end
 
@@ -45,7 +50,7 @@ module Postwave
     
     def initialize(file_name, field_content = {})
       @file_name = file_name
-      @slug = file_name[...-3] # cut off ".md"
+      @slug = file_name.split("/").last[...-3] # cut off ".md"
 
       field_content.each do |field, value|
         instance_variable_set("@#{field}", value) unless self.instance_variables.include?("@#{field}".to_sym)
