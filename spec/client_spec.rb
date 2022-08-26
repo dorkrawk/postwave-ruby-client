@@ -112,7 +112,7 @@ describe Postwave::Client do
       _(post.title).must_equal "Most Recent Post"
       _(post.date).must_equal Time.parse("2022-06-06 22:53")
       _(post.tags).must_equal ["hi"]
-      _(post.body).must_equal "Hi testing!\n"
+      _(post.body).must_equal "Hi testing!\n" + "\n"
     end
 
     it "raises a PostNotFoundError if a bad stub is passed" do

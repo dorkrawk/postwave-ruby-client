@@ -55,7 +55,7 @@ You can also specify offsets and limits (useful for pagination).
 ```ruby
 index = postwave_client(index)
 
-# [<Postwave::Client::PostStub title="My Great Post", date=<Time ...>, stub="2022-06-06-my-great-post">, <Postwave::Client::PostStub ...>, ...]
+# [<Postwave::PostStub title="My Great Post", date=<Time ...>, stub="2022-06-06-my-great-post">, <Postwave::PostStub ...>, ...]
 
 puts index.first.stub
 # 2022-06-06-my-great-post
@@ -69,7 +69,15 @@ Index will be in reverse chronological order.
 ```ruby
 tags = postwave_client.tags
 
-# ["tag1", "another-tag", "lizards"]
+# ["tag1", "tag2", "another-tag"]
+```
+
+### Get Details For A Tag
+
+```ruby
+tag = postwave_clinet.tag("tag1")
+
+# <Postwave::Tag tile="tag1", count=1, post_slugs=[""2022-06-06-my-great-post"]>
 ```
 
 ## Want To Know More About Postwave?
