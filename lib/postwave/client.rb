@@ -69,6 +69,7 @@ module Postwave
       Dir.glob(File.join(@blog_root, POSTS_DIR, "*.md")) do |post_file_path|
         posts << Postwave::Post.new_from_file_path(post_file_path)
       end
+      posts.reject! { |p| p.draft if p.respond_to? :draft }
       posts.sort_by { |p| p.date }.reverse
     end
 

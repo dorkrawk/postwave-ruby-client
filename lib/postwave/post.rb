@@ -45,6 +45,11 @@ module Postwave
         end
       end
 
+      # turn "draft" into boolean
+      if field_content["draft"]
+        field_content["draft"] = field_content["draft"].downcase == "true"
+      end
+
       self.new(path, field_content)
     end
     

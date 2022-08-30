@@ -74,7 +74,7 @@ describe Postwave::Client do
   end
 
   describe "#posts" do
-    it "returns an array of all Posts" do
+    it "returns an array of all non-draft Posts" do
       posts = @good_client.posts
 
       _(posts).must_be_instance_of Array
