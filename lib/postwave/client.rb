@@ -28,8 +28,9 @@ module Postwave
 
     # returns: a post - Postwave::Post
     def post(slug)
-      post_file_path = File.join(@blog_root, POSTS_DIR, "#{slug}.md")
-      raise PostNotFoundError unless File.exist?(post_file_path)
+      post_file_path = Dir["#{File.join(@blog_root, POSTS_DIR)}/*#{slug}.md"].first
+      
+      raise PostNotFoundError unless post_file_path && File.exist?(post_file_path)
 
       Postwave::Post.new_from_file_path(post_file_path)
     end

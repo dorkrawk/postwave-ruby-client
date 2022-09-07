@@ -22,7 +22,7 @@ postwave_client = Postwave::Client.new("path/to/config/postwave.yaml", preload: 
 
 Pass in the stub (the filename without '.md') for the post.
 ```ruby
-post = postwave_client.post("2022-my-great-post")
+post = postwave_client.post("my-great-post")
 
 # <Postwave::Post title="My Great Post", date=<Time ...>, tags=["tag1"], body="bla bla bla..">
 
@@ -55,10 +55,10 @@ You can also specify offsets and limits (useful for pagination).
 ```ruby
 index = postwave_client(index)
 
-# [<Postwave::PostStub title="My Great Post", date=<Time ...>, stub="2022-06-06-my-great-post">, <Postwave::PostStub ...>, ...]
+# [<Postwave::PostStub title="My Great Post", date=<Time ...>, stub="my-great-post">, <Postwave::PostStub ...>, ...]
 
 puts index.first.stub
-# 2022-06-06-my-great-post
+# my-great-post
 
 page2_index = postwave_client.index(offset: 10, limit: 10)
 ```
@@ -77,7 +77,7 @@ tags = postwave_client.tags
 ```ruby
 tag = postwave_clinet.tag("tag1")
 
-# <Postwave::Tag tile="tag1", count=1, post_slugs=[""2022-06-06-my-great-post"]>
+# <Postwave::Tag tile="tag1", count=1, post_slugs=["my-great-post"]>
 ```
 
 ## Want To Know More About Postwave?

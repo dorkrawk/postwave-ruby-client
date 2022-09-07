@@ -49,7 +49,7 @@ describe Postwave::Client do
 
       _(first_post.title).must_equal "Most Recent Post"
       _(first_post.date).must_equal Time.parse("2022-06-06 22:53")
-      _(first_post.slug).must_equal "2022-06-06-most-recent-post"
+      _(first_post.slug).must_equal "most-recent-post"
     end
 
     it "limits the index items based on limit" do
@@ -138,7 +138,7 @@ describe Postwave::Client do
       _(tag).must_be_instance_of Postwave::Tag
       _(tag.name).must_equal tag_name
       _(tag.count).must_equal 2
-      _(tag.post_slugs).must_equal ["2022-06-06-yet-another-post", "2022-06-06-first-test-post"]
+      _(tag.post_slugs).must_equal ["yet-another-post", "first-test-post"]
     end
 
     it "raises a TagNotFounde if a bad tag path is passed" do
