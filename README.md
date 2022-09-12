@@ -4,7 +4,9 @@ A Ruby client for displaying [Postwave](https://github.com/dorkrawk/postwave) bl
 
 ## Installation 
 
-todo
+```
+gem install postwave-client
+```
 
 ## Usage
 
