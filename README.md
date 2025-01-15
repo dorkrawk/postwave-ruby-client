@@ -1,3 +1,12 @@
+# ❗️ THIS LIBRARY IS NO LONGER USED! FUNCTIONALITY HAS BEEN MERGED INTO THE POSTWAVE GEM ❗️
+
+**Rather than having a separate client gem, I've merged the client functionality into the [Postwave](https://github.com/dorkrawk/postwave) library. Please use that!**
+
+---
+---
+---
+---
+
 # Postwave Ruby Client 🌊
 
 A Ruby client for displaying [Postwave](https://github.com/dorkrawk/postwave) blogs.
